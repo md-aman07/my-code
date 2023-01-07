@@ -1,0 +1,97 @@
+#include <iostream>
+using namespace std;
+
+class Node{
+public:
+int data;
+Node* pre;
+Node* next;
+
+//constructor
+Node(int data){
+  this->data = data;
+  this->next = NULL;
+  this->pre = NULL;
+}
+
+};
+
+//treverse the linked list
+void print(Node* &head){
+  Node* temp = head;
+  while(temp != NULL){
+    cout<<temp->data <<" ";
+    temp = temp->next;
+  }
+  cout<<endl;
+}
+
+void insertAtHead(Node* &head,int data){
+  //create a node
+  Node* temp = new Node(data);
+  temp->next = head;
+  head->pre = temp;
+  head = temp;
+}
+
+void insertAtTail(Node* &tail,int data){
+  //create a node
+  Node* temp = new Node(data);
+  tail->next = temp;
+  temp -> pre = tail;
+  tail = temp;
+}
+
+//insert a node 
+void insertAtPosition(Node* &head,Node* tail,int position,int data){
+  //insert at start
+  if(position == 1){
+    insertAtHead(head,data);
+    return;
+  }
+Node* temp = head;
+  int cnt =1;
+  while(cnt < position-1){
+    temp = temp->next;
+    cnt++;
+  }
+  
+  //insert at lsat position
+  if(temp->next == NULL){
+    insertAtTail(tail,data);
+    return;
+
+  }
+
+  //insert At anywere
+  //create a node
+  Node* inserNode = new Node(data);
+  inserNode -> next = temp->next;
+  temp->next->pre = inserNode;
+  temp->next = inserNode;
+  inserNode->pre = temp;
+}
+
+int main(){
+  //create a node
+  Node* node1 = new Node(10);
+  Node* tail = node1;
+  Node* head = node1;
+  print(head);
+
+  insertAtHead(head, 12);
+  print(head);
+
+  
+  insertAtHead(head, 15);
+  print(head);
+
+  
+  insertAtHead(head, 18);
+  print(head);
+
+  insertAtPosition(head, tail, 2, 55);
+  print(head);
+
+return 0;  
+}
